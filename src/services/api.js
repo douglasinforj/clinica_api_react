@@ -97,12 +97,14 @@ export const updateClienteFoto = async (clienteId, formData) => {
 
 
 export const updateCliente = async (id, dadosCliente) => {
+  const token = localStorage.getItem('token');
   try {
-      const token = localStorage.getItem('token');
+      
       const response = await api.put(`/clientes/${id}/`, dadosCliente, {
           headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+              
           },
       });
       return response.data;
