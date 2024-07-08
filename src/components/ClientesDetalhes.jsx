@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
-
-import { useParams} from 'react-router-dom';
-import { getClienteDetalhes, updateClienteFoto, deleteCliente, getExamesDoCliente } from '../services/api';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getClienteDetalhes, updateClienteFoto, deleteCliente, getExamesDoCliente, updateCliente } from '../services/api';
 import Navbar from './Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './ClientesDetalhes.css';  // Importa o arquivo de estilos personalizados
-
-
+import './ClientesDetalhes.css';
 
 const ClienteDetalhes = () => {
     const { id } = useParams();
@@ -16,6 +12,9 @@ const ClienteDetalhes = () => {
     const [cliente, setCliente] = useState(null);
     const [foto, setFoto] = useState(null);
     const [exames, setExames] = useState([]);
+    const [isEditing, setIsEditing] = useState(false);
+
+    const [dadosAtualizados, setDadosAtualizados] = useState(false);
 
     useEffect(() => {
         const fetchClienteDetalhes = async () => {
@@ -30,7 +29,7 @@ const ClienteDetalhes = () => {
 
         fetchClienteDetalhes();
         fetchExames();
-    }, [id]);
+    }, [id, dadosAtualizados]);
 
     const handleFotoChange = (e) => {
         setFoto(e.target.files[0]);
@@ -57,18 +56,36 @@ const ClienteDetalhes = () => {
         }
     };
 
-    const handleAtualizarCadastro = () => {
-        navigate(`/clientes/${id}/editar`);  // Redireciona para a página de edição do cliente
-    };
-
-    const handleDeletarCadastro = async () => {
+    const handleDeleteCliente = async () => {
         if (window.confirm('Tem certeza que deseja deletar este cliente?')) {
             try {
                 await deleteCliente(id);
-                navigate('/clientes');  // Redireciona para a lista de clientes após a exclusão
+                navigate('/clientes'); // Redireciona para a lista de clientes após a exclusão
             } catch (error) {
                 console.error('Erro ao deletar o cliente:', error.response || error.message);
             }
+        }
+    };
+
+    const handleUpdateCliente = async (e) => {
+        e.preventDefault();
+
+        const novosDados = {
+            nome: e.target.nome.value,
+            cpf: e.target.cpf.value,
+            rg: e.target.rg.value,
+            telefone: e.target.telefone.value,
+            email: e.target.email.value,
+            data_nascimento: e.target.data_nascimento.value,
+            data_cadastro: e.target.data_cadastro.value,
+        };
+
+        try {
+            await updateCliente(id, novosDados);
+            setDadosAtualizados(!dadosAtualizados);
+            setIsEditing(false); // Volta ao modo de visualização após atualizar
+        } catch (error) {
+            console.error('Erro ao atualizar dados do cliente:', error);
         }
     };
 
@@ -80,53 +97,77 @@ const ClienteDetalhes = () => {
         <div>
             <Navbar />
             <div className="container mt-5">
-                <h2>Detalhes do Cliente</h2>
-                <div className="row">
-                    <div className="col-md-4 text-center">
-                        <img src={cliente.foto} alt="Foto do Cliente" className="img-thumbnail foto-cliente" />
-                        <form onSubmit={handleFotoSubmit} className="mt-3">
+                <div className="row justify-content-center">
+                    <div className="col-md-6">
+                        <h2 className="text-center">Detalhes do Cliente</h2>
+                        <div className="text-center">
+                            <img src={cliente.foto} alt="Foto do Cliente" className="img-thumbnail" />
+                        </div>
+                        <form onSubmit={handleFotoSubmit} className="mt-3 text-center">
                             <input type="file" onChange={handleFotoChange} className="form-control-file" />
                             <button type="submit" className="btn btn-primary mt-2">Atualizar Foto</button>
                         </form>
-                    </div>
-                    <div className="col-md-8">
-                        <h3>Informações do Cliente</h3>
-                        <p><strong>Nome:</strong> {cliente.nome}</p>
-                        <p><strong>CPF:</strong> {cliente.cpf}</p>
-                        <p><strong>RG:</strong> {cliente.rg}</p>
-                        <p><strong>Telefone:</strong> {cliente.telefone}</p>
-                        <p><strong>Email:</strong> {cliente.email}</p>
-                        <p><strong>Data de Nascimento:</strong> {cliente.data_nascimento}</p>
-                        <p><strong>Data de Cadastro:</strong> {cliente.data_cadastro}</p>
-                        <button className="btn btn-primary mt-3 mr-3" onClick={handleAtualizarCadastro}>Atualizar Cadastro</button>
-                        <button className="btn btn-danger mt-3" onClick={handleDeletarCadastro}>Deletar Cadastro</button>
-                    </div>
-                </div>
-                <div className="row mt-4">
-                    <div className="col">
-                        <h3>Exames do Cliente</h3>
-                        <table className="table table-bordered">
-                            <thead className="thead-light">
-                                <tr>
-                                    <th>Nome do Exame</th>
-                                    <th>Data do Exame</th>
-                                    <th>Data de Entrega</th>
-                                    <th>Comentários</th>
-                                    <th>Preço</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {exames.map(exame => (
-                                    <tr key={exame.id}>
-                                        <td>{exame.exame.nome}</td>
-                                        <td>{exame.data_exame}</td>
-                                        <td>{exame.data_entrega}</td>
-                                        <td>{exame.comentarios_resultados}</td>
-                                        <td>{exame.preco}</td>
+                        <form onSubmit={handleUpdateCliente} className="mt-3">
+                            <div className="form-group">
+                                <label htmlFor="nome">Nome:</label>
+                                <input type="text" className="form-control" id="nome" defaultValue={cliente.nome} required disabled={!isEditing} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="cpf">CPF:</label>
+                                <input type="text" className="form-control" id="cpf" defaultValue={cliente.cpf} required disabled={!isEditing} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="rg">RG:</label>
+                                <input type="text" className="form-control" id="rg" defaultValue={cliente.rg} required disabled={!isEditing} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="telefone">Telefone:</label>
+                                <input type="text" className="form-control" id="telefone" defaultValue={cliente.telefone} required disabled={!isEditing} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="email">Email:</label>
+                                <input type="email" className="form-control" id="email" defaultValue={cliente.email} required disabled={!isEditing} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="data_nascimento">Data de Nascimento:</label>
+                                <input type="date" className="form-control" id="data_nascimento" defaultValue={cliente.data_nascimento} required disabled={!isEditing} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="data_cadastro">Data de Cadastro:</label>
+                                <input type="date" className="form-control" id="data_cadastro" defaultValue={cliente.data_cadastro} required disabled={!isEditing} />
+                            </div>
+                            {isEditing ? (
+                                <button type="submit" className="btn btn-primary w-100">Salvar</button>
+                            ) : (
+                                <button type="button" className="btn btn-secondary w-100" onClick={() => setIsEditing(true)}>Editar</button>
+                            )}
+                        </form>
+                        <button className="btn btn-danger w-100 mt-3" onClick={handleDeleteCliente}>Deletar Cliente</button>
+                        <div className="mt-4">
+                            <h3 className="text-center">Exames do Cliente</h3>
+                            <table className="table table-bordered">
+                                <thead className="thead-light">
+                                    <tr>
+                                        <th>Nome do Exame</th>
+                                        <th>Data do Exame</th>
+                                        <th>Data de Entrega</th>
+                                        <th>Comentários</th>
+                                        <th>Preço</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {exames.map(exame => (
+                                        <tr key={exame.id}>
+                                            <td>{exame.exame.nome}</td>
+                                            <td>{exame.data_exame}</td>
+                                            <td>{exame.data_entrega}</td>
+                                            <td>{exame.comentarios_resultados}</td>
+                                            <td>{exame.preco}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
