@@ -13,18 +13,25 @@ const ClienteDetalhes = () => {
     const [foto, setFoto] = useState(null);
     const [exames, setExames] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
-
     const [dadosAtualizados, setDadosAtualizados] = useState(false);
 
     useEffect(() => {
         const fetchClienteDetalhes = async () => {
-            const data = await getClienteDetalhes(id);
-            setCliente(data);
+            try {
+                const data = await getClienteDetalhes(id);
+                setCliente(data);
+            } catch (error) {
+                console.error('Erro ao buscar detalhes do cliente:', error);
+            }
         };
 
         const fetchExames = async () => {
-            const data = await getExamesDoCliente(id);
-            setExames(data);
+            try {
+                const data = await getExamesDoCliente(id);
+                setExames(data);
+            } catch (error) {
+                console.error('Erro ao buscar exames do cliente:', error);
+            }
         };
 
         fetchClienteDetalhes();
@@ -82,11 +89,22 @@ const ClienteDetalhes = () => {
 
         try {
             await updateCliente(id, novosDados);
+            console.log('Dados do cliente atualizados com sucesso.');
             setDadosAtualizados(!dadosAtualizados);
             setIsEditing(false); // Volta ao modo de visualização após atualizar
         } catch (error) {
             console.error('Erro ao atualizar dados do cliente:', error);
         }
+    };
+
+    const handleEditClick = () => {
+        console.log('Entrando no modo de edição');
+        setIsEditing(true);
+    };
+
+    const handleCancelEdit = () => {
+        console.log('Cancelando a edição');
+        setIsEditing(false);
     };
 
     if (!cliente) {
@@ -101,7 +119,7 @@ const ClienteDetalhes = () => {
                     <div className="col-md-6">
                         <h2 className="text-center">Detalhes do Cliente</h2>
                         <div className="text-center">
-                            <img src={cliente.foto} alt="Foto do Cliente" className="img-thumbnail" />
+                            <img src={cliente.foto} alt="Foto do Cliente" className="img-thumbnail" style={{ width: '150px', height: '150px' }} />
                         </div>
                         <form onSubmit={handleFotoSubmit} className="mt-3 text-center">
                             <input type="file" onChange={handleFotoChange} className="form-control-file" />
@@ -137,9 +155,12 @@ const ClienteDetalhes = () => {
                                 <input type="date" className="form-control" id="data_cadastro" defaultValue={cliente.data_cadastro} required disabled={!isEditing} />
                             </div>
                             {isEditing ? (
-                                <button type="submit" className="btn btn-primary w-100">Salvar</button>
+                                <>
+                                    <button type="submit" className="btn btn-primary w-100">Salvar</button>
+                                    <button type="button" className="btn btn-secondary w-100 mt-2" onClick={handleCancelEdit}>Cancelar</button>
+                                </>
                             ) : (
-                                <button type="button" className="btn btn-secondary w-100" onClick={() => setIsEditing(true)}>Editar</button>
+                                <button type="button" className="btn btn-secondary w-100" onClick={handleEditClick}>Editar</button>
                             )}
                         </form>
                         <button className="btn btn-danger w-100 mt-3" onClick={handleDeleteCliente}>Deletar Cliente</button>
