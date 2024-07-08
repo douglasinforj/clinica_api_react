@@ -94,4 +94,21 @@ export const updateClienteFoto = async (clienteId, formData) => {
   }
 };
 
+
+
+
+
+
+export const deleteCliente = async (clienteId) => {
+  const token = localStorage.getItem('token');
+  const response = await api.delete(`/clientes/${clienteId}/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+
+
 export default api
