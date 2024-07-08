@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { getClienteDetalhes, updateClienteFoto, deleteCliente, getExamesDoCliente, updateCliente } from '../services/api';
 import Navbar from './Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -164,6 +164,7 @@ const ClienteDetalhes = () => {
                             )}
                         </form>
                         <button className="btn btn-danger w-100 mt-3" onClick={handleDeleteCliente}>Deletar Cliente</button>
+                        <Link to={`/clientes/${id}/add-exame`} className="btn btn-success w-100 mt-3">Adicionar Exame</Link>
                         <div className="mt-4">
                             <h3 className="text-center">Exames do Cliente</h3>
                             <table className="table table-bordered">
