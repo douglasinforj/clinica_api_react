@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { getClienteDetalhes, updateClienteFoto, getExamesDoCliente } from '../services/api';
+import { useNavigate } from "react-router-dom";
+
+import { useParams} from 'react-router-dom';
+import { getClienteDetalhes, updateClienteFoto, deleteCliente, getExamesDoCliente } from '../services/api';
 import Navbar from './Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './ClientesDetalhes.css';  // Importa o arquivo de estilos personalizados
 
+
+
 const ClienteDetalhes = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
+
     const [cliente, setCliente] = useState(null);
     const [foto, setFoto] = useState(null);
     const [exames, setExames] = useState([]);
@@ -51,6 +57,21 @@ const ClienteDetalhes = () => {
         }
     };
 
+    const handleAtualizarCadastro = () => {
+        navigate(`/clientes/${id}/editar`);  // Redireciona para a página de edição do cliente
+    };
+
+    const handleDeletarCadastro = async () => {
+        if (window.confirm('Tem certeza que deseja deletar este cliente?')) {
+            try {
+                await deleteCliente(id);
+                navigate('/clientes');  // Redireciona para a lista de clientes após a exclusão
+            } catch (error) {
+                console.error('Erro ao deletar o cliente:', error.response || error.message);
+            }
+        }
+    };
+
     if (!cliente) {
         return <div className="container mt-5">Carregando...</div>;
     }
@@ -77,6 +98,8 @@ const ClienteDetalhes = () => {
                         <p><strong>Email:</strong> {cliente.email}</p>
                         <p><strong>Data de Nascimento:</strong> {cliente.data_nascimento}</p>
                         <p><strong>Data de Cadastro:</strong> {cliente.data_cadastro}</p>
+                        <button className="btn btn-primary mt-3 mr-3" onClick={handleAtualizarCadastro}>Atualizar Cadastro</button>
+                        <button className="btn btn-danger mt-3" onClick={handleDeletarCadastro}>Deletar Cadastro</button>
                     </div>
                 </div>
                 <div className="row mt-4">
