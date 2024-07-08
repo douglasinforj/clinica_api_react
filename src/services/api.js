@@ -96,6 +96,24 @@ export const updateClienteFoto = async (clienteId, formData) => {
 
 
 
+export const updateCliente = async (id, dadosCliente) => {
+  try {
+      const token = localStorage.getItem('token');
+      const response = await api.put(`/clientes/${id}/`, dadosCliente, {
+          headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+          },
+      });
+      return response.data;
+  } catch (error) {
+      console.error('Erro ao atualizar cliente:', error);
+      throw error;
+  }
+};
+
+
+
 
 
 
