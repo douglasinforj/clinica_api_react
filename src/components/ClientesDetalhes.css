@@ -1,5 +1,34 @@
-.foto-cliente {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+h2, h3 {
+    text-align: center;
+}
+
+.img-thumbnail {
+    display: block;
+    margin: auto;
+    width: 150px; /* Ajuste conforme necessário */
+    height: 150px; /* Ajuste conforme necessário */
+    object-fit: cover; /* Para garantir que a imagem se ajuste ao contêiner sem distorção */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-group {
+    width: 100%;
+}
+
+button {
+    width: 100%;
+}
+
+.table {
+    margin-top: 20px;
 }
