@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Clientes from './components/Clientes';
 import NovoCliente from './components/NovoCliente';
 import ClienteDetalhes from './components/ClientesDetalhes';
+import AdicionarExame from './components/AdicionarExame';
 
 const App = () => {
     const isAuthenticated = () => {
@@ -31,6 +32,11 @@ const App = () => {
                     path="/clientes/novo"
                     element={isAuthenticated() ? <NovoCliente /> : <Navigate to="/login" />}
                 />
+
+                <Route
+                    path="/clientes/:id/add-exame"
+                    element={isAuthenticated() ? <AdicionarExame /> : <Navigate to="/login" />}
+                />      
                 <Route
                     path="/clientes/:id"
                     element={isAuthenticated() ? <ClienteDetalhes /> : <Navigate to="/login" />}
