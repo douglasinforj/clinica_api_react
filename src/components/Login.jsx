@@ -28,7 +28,7 @@ const Login = () => {
         <div className='container'>
           <div className='row justify-content-center mt-5'>
             <div className='col-12 col-md-6 col-lg-4 text-center'>
-              <img src='/images/logo.png' alt='Logo' className='img-fluid mb-4' style={{ maxWidth: '200px', marginTop: '25px' }} />
+              <img src='/images/logo.png' alt='Logo' className='img-fluid mb-4' style={{ maxWidth: '350px', marginTop: '25px' }} />
               <br></br>
             
               <form onSubmit={handleSubmit}>
