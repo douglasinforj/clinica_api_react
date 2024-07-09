@@ -168,6 +168,21 @@ export const fetchExames = async () => {                //Percorre dados da tabe
   }
 };
 
+export const fetchExamesPorCliente = async (clienteId) => {   //Busca os exames marcados dos Cliente para exibir em seus detalhes
+  const token = localStorage.getItem('token');
+  try {
+    const response = await api.get(`/exames-marcados/?cliente=${clienteId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao buscar exames do cliente:', error.response);
+    throw error;
+  }
+};
+
 
 
 
