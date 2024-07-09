@@ -180,7 +180,7 @@ const ClienteDetalhes = () => {
                                 <tbody>
                                     {exames.map(exame => (
                                         <tr key={exame.id}>
-                                            <td>{exame.exame.nome}</td>
+                                            <td>{exame.exame_nome}</td>
                                             <td>{exame.data_exame}</td>
                                             <td>{exame.data_entrega}</td>
                                             <td>{exame.comentarios_resultados}</td>
