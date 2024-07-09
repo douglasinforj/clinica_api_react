@@ -6,6 +6,7 @@ import Clientes from './components/Clientes';
 import NovoCliente from './components/NovoCliente';
 import ClienteDetalhes from './components/ClientesDetalhes';
 import AdicionarExame from './components/AdicionarExame';
+import ExamesAgendados from './components/ExamesAgendados';
 
 const App = () => {
     const isAuthenticated = () => {
@@ -37,6 +38,10 @@ const App = () => {
                     path="/clientes/:id/add-exame"
                     element={isAuthenticated() ? <AdicionarExame /> : <Navigate to="/login" />}
                 />      
+                <Route
+                    path="/exames-agendados"
+                    element={isAuthenticated() ? <ExamesAgendados /> : <Navigate to="/login" />}
+                />
                 <Route
                     path="/clientes/:id"
                     element={isAuthenticated() ? <ClienteDetalhes /> : <Navigate to="/login" />}
