@@ -186,5 +186,23 @@ export const fetchExamesPorCliente = async (clienteId) => {   //Busca os exames 
 
 
 
+export const getAllExamesMarcados = async () => {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await api.get('/exames-marcados/', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao buscar todos os exames marcados:', error.response || error.message);
+    throw error;
+  }
+};
+
+
+
+
 
 export default api
