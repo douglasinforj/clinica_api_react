@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Home = () => {
     return (
-        <div class="text-center">
+        <div className="text-center">
             <Navbar />
             <br></br>
             <img src='/images/logo.png' alt='Logo' className='img-fluid mb-4' style={{ maxWidth: '200px', marginTop: '50px' }} />
