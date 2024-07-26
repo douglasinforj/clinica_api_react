@@ -8,7 +8,6 @@ const ExamesAgendados = () => {
   const [exames, setExames] = useState([]);
   const [filteredExames, setFilteredExames] = useState([]);
   const [nome, setNome] = useState('');
-  
 
   useEffect(() => {
     const fetchExames = async () => {
@@ -27,7 +26,6 @@ const ExamesAgendados = () => {
   const handleSearch = () => {
     const filtered = exames.filter(exame => {
       const clienteNome = exame.cliente_nome ? exame.cliente_nome.toLowerCase() : '';
-      
       return clienteNome.includes(nome.toLowerCase());
     });
     setFilteredExames(filtered);
@@ -38,25 +36,23 @@ const ExamesAgendados = () => {
     handleSearch();
   };
 
-
-
   return (
     <div>
       <Navbar />
       <div className="container mt-5">
         <h2 className="text-center">Todos os Exames Agendados</h2>
-        <form className="form-inline mb-4">
+        <form className="form-inline mb-4 justify-content-center">
           <div className="form-group mr-3">
             <label htmlFor="nome" className="mr-2">Nome:</label>
             <input 
               type="text" 
               className="form-control" 
               id="nome" 
+              placeholder="Pesquisar por nome"
               value={nome} 
               onChange={handleNomeChange} 
             />
           </div>
-          
         </form>
         <table className="table table-bordered mt-4">
           <thead className="thead-light">
