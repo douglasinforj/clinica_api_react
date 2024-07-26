@@ -65,11 +65,11 @@ const Clientes = () => {
               <tr>
                 <th>Nome</th>
                 <th>CPF</th>
-                <th>RG</th>
-                <th>Telefone</th>
-                <th>Email</th>
-                <th>Data de Nascimento</th>
-                <th>Data de Cadastro</th>
+                {/*<th>RG</th>*/}
+                {/*<th>Telefone</th>*/}
+                {/*<th>Email</th>*/}
+                {/*<th>Data de Nascimento</th>*/}
+                {/*<th>Data de Cadastro</th>*/}
               </tr>
             </thead>
             <tbody>
@@ -77,11 +77,11 @@ const Clientes = () => {
                 <tr key={cliente.id}>
                   <td>{cliente.nome}</td>
                   <td>{cliente.cpf}</td>
-                  <td>{cliente.rg}</td>
-                  <td>{cliente.telefone}</td>
-                  <td>{cliente.email}</td>
-                  <td>{cliente.data_nascimento}</td>
-                  <td>{cliente.data_cadastro}</td>
+                  {/*<td>{cliente.rg}</td>*/}
+                  {/*<td>{cliente.telefone}</td>*/}
+                  {/*<td>{cliente.email}</td>*/}
+                  {/*<td>{cliente.data_nascimento}</td>*/}
+                  {/*<td>{cliente.data_cadastro}</td>*/}
                   <td>
                     <button 
                       className="btn btn-info btn-sm"
