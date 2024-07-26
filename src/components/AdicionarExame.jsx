@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createExameDoCliente, fetchExames } from '../services/api';
+import Navbar from './Navbar';
 
 const AdicionarExame = () => {
     const { id } = useParams(); // ID do cliente
@@ -65,86 +66,89 @@ const AdicionarExame = () => {
     };
 
     return (
-        <div className="container mt-5">
-            <div className="row justify-content-center">
-                <div className="col-md-6">
-                    <h2 className="text-center">Adicionar Novo Exame</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <label htmlFor="exame">Selecione o Exame:</label>
-                            <select
-                                className="form-control"
-                                id="exame"
-                                name="exame"
-                                value={novoExame.exame}
-                                onChange={handleInputChange}
-                                required
-                            >
-                                <option value="">Selecione um exame</option>
-                                {exames.map(exame => (
-                                    <option key={exame.id} value={exame.id}>{exame.nome}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="data_exame">Data do Exame:</label>
-                            <input
-                                type="date"
-                                className="form-control"
-                                id="data_exame"
-                                name="data_exame"
-                                value={novoExame.data_exame}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="data_entrega">Data de Entrega:</label>
-                            <input
-                                type="date"
-                                className="form-control"
-                                id="data_entrega"
-                                name="data_entrega"
-                                value={novoExame.data_entrega}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="comentarios_resultados">Comentários/Resultados:</label>
-                            <textarea
-                                className="form-control"
-                                id="comentarios_resultados"
-                                name="comentarios_resultados"
-                                value={novoExame.comentarios_resultados}
-                                onChange={handleInputChange}
-                                required
-                            ></textarea>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="preco">Preço:</label>
-                            <input
-                                type="number"
-                                className="form-control"
-                                id="preco"
-                                name="preco"
-                                value={novoExame.preco}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="documentos_exames">Documentos de Exames:</label>
-                            <input
-                                type="file"
-                                className="form-control"
-                                id="documentos_exames"
-                                name="documentos_exames"
-                                onChange={handleFileChange}
-                            />
-                        </div>
-                        <button type="submit" className="btn btn-primary w-100">Salvar Exame</button>
-                    </form>
+        <div>
+            <Navbar />
+            <div className="container mt-5">
+                <div className="row justify-content-center">
+                    <div className="col-md-6">
+                        <h2 className="text-center">Adicionar Novo Exame</h2>
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <label htmlFor="exame">Selecione o Exame:</label>
+                                <select
+                                    className="form-control"
+                                    id="exame"
+                                    name="exame"
+                                    value={novoExame.exame}
+                                    onChange={handleInputChange}
+                                    required
+                                >
+                                    <option value="">Selecione um exame</option>
+                                    {exames.map(exame => (
+                                        <option key={exame.id} value={exame.id}>{exame.nome}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="data_exame">Data do Exame:</label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    id="data_exame"
+                                    name="data_exame"
+                                    value={novoExame.data_exame}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="data_entrega">Data de Entrega:</label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    id="data_entrega"
+                                    name="data_entrega"
+                                    value={novoExame.data_entrega}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="comentarios_resultados">Comentários/Resultados:</label>
+                                <textarea
+                                    className="form-control"
+                                    id="comentarios_resultados"
+                                    name="comentarios_resultados"
+                                    value={novoExame.comentarios_resultados}
+                                    onChange={handleInputChange}
+                                    required
+                                ></textarea>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="preco">Preço:</label>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    id="preco"
+                                    name="preco"
+                                    value={novoExame.preco}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="documentos_exames">Documentos de Exames:</label>
+                                <input
+                                    type="file"
+                                    className="form-control"
+                                    id="documentos_exames"
+                                    name="documentos_exames"
+                                    onChange={handleFileChange}
+                                />
+                            </div>
+                            <button type="submit" className="btn btn-primary w-100">Salvar Exame</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
