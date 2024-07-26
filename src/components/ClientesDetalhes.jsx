@@ -117,7 +117,7 @@ const ClienteDetalhes = () => {
             <div className="container mt-5">
                 <div className="row justify-content-center">
                     <div className="col-md-6">
-                        <h2 className="text-center">Detalhes do Cliente</h2>
+                        <h2 className="text-center">Ficha do Cliente</h2>
                         <div className="text-center">
                             <img src={cliente.foto} alt="Foto do Cliente" className="img-thumbnail" style={{ width: '150px', height: '150px' }} />
                         </div>
